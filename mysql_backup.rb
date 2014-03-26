@@ -3,9 +3,11 @@ require 'yaml'
 require 'settings'
 require 'optparse'
 require 'mysql2'
+require 'fileutils'
 
 class MySQLBackup
   include Settings
+  include FileUtils
 
   def initialize
     check_if_root
@@ -14,6 +16,7 @@ class MySQLBackup
     load_config
     @databases =[]
     get_database_names
+    dump_databases
   end
 
   def check_if_root
@@ -57,11 +60,21 @@ class MySQLBackup
   def get_database_names
     client = Mysql2::Client.new(host: 'localhost',
                                 username: Settings.mysql[:user],
-                                password: Settings.mysql[:password])
+                                password: Settings.mysql[:pass])
     client.query('SELECT SCHEMA_NAME FROM `information_schema`.`SCHEMATA`;', symbolize_keys: true).each do |row|
-      @databases << row[:schema_name]
+      @databases << row[:SCHEMA_NAME]
     end
-    puts @databases
+  end
+
+  def dump_databases
+    dirname = Time.now.strftime("%Y%m%d")
+    if Dir.exist? dirname
+      FileUtils.rm_r dirname
+    end
+    FileUtils.mkdir dirname
+    @databases.each do |db|
+      exec "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | gzip > #{dirname}/#{db}.sql.gz}"
+    end
   end
 end
 

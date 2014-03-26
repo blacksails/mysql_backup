@@ -1,14 +1,18 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    fileutils (0.7)
+      rmagick (>= 2.13.1)
     io-console (0.4.2)
     mysql2 (0.3.15)
     psych (2.0.3)
+    rmagick (2.13.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  fileutils
   io-console
   mysql2
   psych

@@ -10,4 +10,7 @@ gem 'io-console'
 # Used to generate/read config file
 gem 'psych'
 
+# Used to manage directories and files
+gem 'fileutils'
+
 ruby '2.1.1'
