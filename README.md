@@ -5,4 +5,4 @@ backup server
 ## Installation
 1. Clone the repo to the machine running MySQL.
 2. Run mysql_backup.rb and fill out the initial configuration
-3. Create a cron job running the script at the interval that you want backups
+3. Create a cron job which runs the script at the interval in which you want backups
