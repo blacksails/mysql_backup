@@ -61,7 +61,7 @@ class MySQLBackup
     client = Mysql2::Client.new(host: 'localhost',
                                 username: Settings.mysql[:user],
                                 password: Settings.mysql[:pass])
-    client.query('SELECT SCHEMA_NAME FROM `information_schema`.`SCHEMATA`;', symbolize_keys: true).each do |row|
+    client.query('SELECT SCHEMA_NAME FROM `information_schema`.`SCHEMATA` WHERE SCHEMA_NAME<>information_schema;', symbolize_keys: true).each do |row|
       @databases << row[:SCHEMA_NAME]
     end
   end
