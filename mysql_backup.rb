@@ -11,8 +11,9 @@ class MySQLBackup
     check_if_root
     @options = {}
     handle_arguments
-    @databases =[]
     load_config
+    @databases =[]
+    get_database_names
   end
 
   def check_if_root
