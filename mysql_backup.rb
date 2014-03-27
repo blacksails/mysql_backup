@@ -12,7 +12,7 @@ class MySQLBackup
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
     check_if_root
-    @options = []
+    @options = {}
     handle_arguments
     load_config
     @databases = []
