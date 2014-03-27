@@ -47,12 +47,13 @@ class MySQLBackup
   end
 
   def load_config
-    # reset the config on the -r flag
+    # deletes the config on the -r flag
     if @options[:reset_config]
       if @root_path+'config.yml'
         FileUtils.rm @root_path+'config.yml'
       end
     end
+    # creates new config if none is found
     unless File.exist? @root_path+'config.yml'
       Settings.create!
     end
@@ -74,7 +75,7 @@ class MySQLBackup
   end
 
   def dump_databases
-    @dirname = Time.now.strftime("%Y%m%d")
+    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     if Dir.exist? @root_path+@dirname
       FileUtils.rm_r @root_path+@dirname
     end
