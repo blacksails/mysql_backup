@@ -1,6 +1,6 @@
 $LOAD_PATH << '.'
 require 'yaml'
-require 'settings'
+require_relative 'settings'
 require 'optparse'
 require 'mysql2'
 require 'fileutils'
@@ -10,13 +10,16 @@ class MySQLBackup
   include FileUtils
 
   def initialize
+    @root_path = File.dirname(__FILE__)+'/'
     check_if_root
     @options = {}
     handle_arguments
     load_config
     @databases =[]
     get_database_names
+    @dirname = 'default'
     dump_databases
+    #move_dumps_to_backup_server
   end
 
   def check_if_root
@@ -45,12 +48,12 @@ class MySQLBackup
 
   def load_config
     if @options[:reset_config]
-      if File.exist? 'config.yml'
-        File.delete 'config.yml'
+      if @root_path+'config.yml'
+        FileUtils.rm @root_path+'config.yml'
       end
     end
 
-    if File.exist? 'config.yml'
+    if File.exist? @root_path+'config.yml'
       Settings.load!
     else
       Settings.create!
@@ -72,14 +75,18 @@ class MySQLBackup
   end
 
   def dump_databases
-    dirname = Time.now.strftime("%Y%m%d")
-    if Dir.exist? dirname
-      FileUtils.rm_r dirname
+    @dirname = Time.now.strftime("%Y%m%d")
+    if Dir.exist? @root_path+@dirname
+      FileUtils.rm_r @root_path+@dirname
     end
-    FileUtils.mkdir dirname
+    FileUtils.mkdir @root_path+@dirname
     @databases.each do |db|
-      system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | gzip > #{dirname}/#{db}.sql.gz"
+      system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | gzip > #{@root_path+@dirname}/#{db}.sql.gz"
     end
+  end
+
+  def move_dumps_to_backup_server
+    system  "rsync -a #{@dirname} "
   end
 end
 
