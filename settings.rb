@@ -45,7 +45,6 @@ module Settings
     f.chown(-1,0)
     f.chmod(0600)
     f.write Psych.dump(settings)
-    load!
   end
 
 end

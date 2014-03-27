@@ -12,7 +12,6 @@ class MySQLBackup
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
     check_if_root
-    set_default_options
     handle_arguments
     load_config
     @databases =[]
@@ -27,12 +26,6 @@ class MySQLBackup
       puts 'You need root privileges to run this script'
       exit 1
     end
-  end
-
-  def set_default_options
-    @options = {
-        reset_config: false
-    }
   end
 
   def handle_arguments
@@ -53,17 +46,16 @@ class MySQLBackup
   end
 
   def load_config
+    # reset the config on the -r flag
     if @options[:reset_config]
       if @root_path+'config.yml'
         FileUtils.rm @root_path+'config.yml'
       end
     end
-
-    if File.exist? @root_path+'config.yml'
-      Settings.load!
-    else
+    unless File.exist? @root_path+'config.yml'
       Settings.create!
     end
+    Settings.load!
   end
 
   def get_database_names
