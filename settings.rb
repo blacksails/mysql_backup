@@ -25,6 +25,8 @@ module Settings
     mysql_password = STDIN.noecho(&:gets).chomp; puts
     printf 'Enter rsync host: '
     rsync_host = gets.chomp
+    printf 'Enter rsync user: '
+    rsync_user = gets.chomp
     printf 'Enter rsync path: '
     rsync_path = gets.chomp
     settings = {
@@ -34,6 +36,7 @@ module Settings
         },
         rsync: {
             host: rsync_host,
+            user: rsync_user,
             path: rsync_path
         }
     }

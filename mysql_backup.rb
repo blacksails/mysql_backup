@@ -12,14 +12,14 @@ class MySQLBackup
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
     check_if_root
-    @options = {}
+    set_default_options
     handle_arguments
     load_config
     @databases =[]
     get_database_names
     @dirname = 'default'
     dump_databases
-    #move_dumps_to_backup_server
+    move_dumps_to_backup_server
   end
 
   def check_if_root
@@ -27,6 +27,12 @@ class MySQLBackup
       puts 'You need root privileges to run this script'
       exit 1
     end
+  end
+
+  def set_default_options
+    @options = {
+        reset_config: false
+    }
   end
 
   def handle_arguments
@@ -81,12 +87,13 @@ class MySQLBackup
     end
     FileUtils.mkdir @root_path+@dirname
     @databases.each do |db|
-      system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | gzip > #{@root_path+@dirname}/#{db}.sql.gz"
+      system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | "+
+                 "gzip > #{@root_path+@dirname}/#{db}.sql.gz"
     end
   end
 
   def move_dumps_to_backup_server
-    system  "rsync -a #{@dirname} "
+    system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
   end
 end
 
