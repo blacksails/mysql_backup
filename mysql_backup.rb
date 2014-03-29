@@ -6,8 +6,6 @@ require 'mysql2'
 require 'fileutils'
 
 class MySQLBackup
-  #include Settings
-  #include FileUtils
 
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
@@ -88,10 +86,11 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    if @options
+    unless @options[:no_remote]
       system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
     end
   end
+
 end
 
 MySQLBackup.new
