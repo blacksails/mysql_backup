@@ -65,7 +65,7 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    unless Options.use_remote
+    if Options.use_remote
       system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
     end
   end
