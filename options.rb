@@ -3,7 +3,11 @@ require 'optparse'
 module Options
   extend self
 
-  @options = {}
+  # Option defaults
+  @options = {
+      reset_config: false,
+      use_remote: true
+  }
 
   def handle_arguments!
     o = OptionParser.new do |opts|
@@ -16,7 +20,7 @@ module Options
           |v| @options[:reset_config] = true
       }
       opts.on('-nr', '--no-remote', 'Runs backup without moving it to a remote location') {
-          |v| @options[:no_remote] = true
+          |v| @options[:use_remote] = true
       }
     end
     begin o.parse!

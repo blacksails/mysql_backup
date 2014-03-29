@@ -1,8 +1,6 @@
-$LOAD_PATH << '.'
-require 'yaml'
+#$LOAD_PATH << '.'
 require_relative 'settings'
 require_relative 'options'
-require 'optparse'
 require 'mysql2'
 require 'fileutils'
 
@@ -67,7 +65,7 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    unless Options.no_remote
+    unless Options.use_remote
       system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
     end
   end
