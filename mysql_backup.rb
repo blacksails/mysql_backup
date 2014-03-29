@@ -6,8 +6,8 @@ require 'mysql2'
 require 'fileutils'
 
 class MySQLBackup
-  include Settings
-  include FileUtils
+  #include Settings
+  #include FileUtils
 
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
@@ -37,6 +37,7 @@ class MySQLBackup
         exit
       end
       opts.on('-r', '--reset-config', 'Reset the config file') {|v| @options[:reset_config] = true}
+      opts.on('--no-remote', 'Runs backup without moving it to a remote') {|v| @options[:no_remote] = true}
     end
     begin o.parse!
     rescue OptionParser::InvalidOption => e
@@ -87,7 +88,9 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
+    if @options
+      system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
+    end
   end
 end
 
