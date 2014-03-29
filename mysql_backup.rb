@@ -1,4 +1,3 @@
-#$LOAD_PATH << '.'
 require_relative 'settings'
 require_relative 'options'
 require 'mysql2'
@@ -13,7 +12,7 @@ class MySQLBackup
     load_config
     @databases = []
     get_database_names
-    @dirname = 'default'
+    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     dump_databases
     move_dumps_to_backup_server
   end
@@ -33,7 +32,9 @@ class MySQLBackup
       end
     end
     # creates new config if none is found
-    unless File.exist? @root_path+'config.yml'
+    if File.exist? @root_path+'config.yml'
+      Settings.load!
+    else
       Settings.create!
     end
   end
@@ -53,7 +54,6 @@ class MySQLBackup
   end
 
   def dump_databases
-    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     if Dir.exist? @root_path+@dirname
       FileUtils.rm_r @root_path+@dirname
     end
@@ -65,8 +65,9 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    if Options.use_remote
-      system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
+    if Options.use_remote # checks if the -w flag has been set
+      system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
+                  ":#{Settings.rsync[:path]}"
     end
   end
 

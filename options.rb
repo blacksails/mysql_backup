@@ -19,7 +19,7 @@ module Options
       opts.on('-r', '--reset-config', 'Reset the config file') {
           |v| @options[:reset_config] = true
       }
-      opts.on('-nr', '--no-remote', 'Runs backup without moving it to a remote location') {
+      opts.on('-w', '--without-remote', 'Runs backup without moving it to a remote location') {
           |v| @options[:use_remote] = true
       }
     end
