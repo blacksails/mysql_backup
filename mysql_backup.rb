@@ -11,7 +11,6 @@ class MySQLBackup
   def initialize
     @root_path = File.dirname(__FILE__)+'/'
     check_if_root
-    @options = {}
     Options.handle_arguments!
     load_config
     @databases = []
@@ -24,28 +23,6 @@ class MySQLBackup
   def check_if_root
     if ENV['USER'] != 'root'
       puts 'You need root privileges to run this script'
-      exit 1
-    end
-  end
-
-  def handle_arguments
-    o = OptionParser.new do |opts|
-      opts.banner = 'Usage: mysql_backup.rb [options]'
-      opts.on_tail('-h', '--help', 'Show this message') do
-        puts opts
-        exit
-      end
-      opts.on('-r', '--reset-config', 'Reset the config file') {
-          |v| @options[:reset_config] = true
-      }
-      opts.on('-nr', '--no-remote', 'Runs backup without moving it to a remote location') {
-          |v| @options[:no_remote] = true
-      }
-    end
-    begin o.parse!
-    rescue OptionParser::InvalidOption => e
-      puts e
-      puts o
       exit 1
     end
   end
@@ -90,7 +67,7 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    unless @options[:no_remote]
+    unless Options.no_remote
       system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}:#{Settings.rsync[:path]}"
     end
   end
