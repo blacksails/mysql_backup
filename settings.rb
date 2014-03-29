@@ -4,7 +4,6 @@ require 'io/console'
 module Settings
 
   extend self
-  attr_reader :settings
 
   @settings = {}
 
@@ -46,6 +45,7 @@ module Settings
     f.chmod(0600)
     f.write Psych.dump(settings)
     f.close
+    load!
   end
 
 end

@@ -1,6 +1,7 @@
 $LOAD_PATH << '.'
 require 'yaml'
 require_relative 'settings'
+require_relative 'options'
 require 'optparse'
 require 'mysql2'
 require 'fileutils'
@@ -11,7 +12,7 @@ class MySQLBackup
     @root_path = File.dirname(__FILE__)+'/'
     check_if_root
     @options = {}
-    handle_arguments
+    Options.handle_arguments!
     load_config
     @databases = []
     get_database_names
@@ -34,8 +35,12 @@ class MySQLBackup
         puts opts
         exit
       end
-      opts.on('-r', '--reset-config', 'Reset the config file') {|v| @options[:reset_config] = true}
-      opts.on('--no-remote', 'Runs backup without moving it to a remote') {|v| @options[:no_remote] = true}
+      opts.on('-r', '--reset-config', 'Reset the config file') {
+          |v| @options[:reset_config] = true
+      }
+      opts.on('-nr', '--no-remote', 'Runs backup without moving it to a remote location') {
+          |v| @options[:no_remote] = true
+      }
     end
     begin o.parse!
     rescue OptionParser::InvalidOption => e
@@ -47,8 +52,8 @@ class MySQLBackup
 
   def load_config
     # deletes the config on the -r flag
-    if @options[:reset_config]
-      if @root_path+'config.yml'
+    if Options.reset_config
+      if File.exist? @root_path+'config.yml'
         FileUtils.rm @root_path+'config.yml'
       end
     end
@@ -56,7 +61,6 @@ class MySQLBackup
     unless File.exist? @root_path+'config.yml'
       Settings.create!
     end
-    Settings.load!
   end
 
   def get_database_names
