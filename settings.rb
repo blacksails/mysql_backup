@@ -1,5 +1,6 @@
 require 'psych'
 require 'io/console'
+require 'fileutils'
 
 module Settings
 

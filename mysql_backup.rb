@@ -6,13 +6,13 @@ require 'fileutils'
 class MySQLBackup
 
   def initialize
-    @root_path = File.dirname(__FILE__)+'/'
     check_if_root
+    @root_path = File.dirname(__FILE__)+'/'
+    @databases = []
+    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     Options.handle_arguments!
     load_config
-    @databases = []
     get_database_names
-    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     dump_databases
     move_dumps_to_backup_server
   end
@@ -20,7 +20,7 @@ class MySQLBackup
   def check_if_root
     if ENV['USER'] != 'root'
       puts 'You need root privileges to run this script'
-      exit 1
+      exit
     end
   end
 
