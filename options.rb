@@ -49,8 +49,7 @@ module Options
     end
   end
 
-  def get_y_or_n
-    tries = 0
+  def get_y_or_n(tries=0)
     ans = gets.chomp.downcase
     if ans =~ /^y(|es)$/
       true
@@ -63,7 +62,7 @@ module Options
         exit
       end
       printf "Please enter 'y' or 'n': "
-      get_y_or_n
+      get_y_or_n(tries+1)
     end
   end
 
