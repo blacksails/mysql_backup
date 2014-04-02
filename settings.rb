@@ -9,7 +9,7 @@ module Settings
   @settings = {}
 
   def load!
-    @settings = Psych.load_file(File.dirname(__FILE__)+'/config.yml')
+    @settings = Psych.load_file(File.dirname(__FILE__)+'/config/config.yml')
   end
 
   def method_missing(name, *args, &block)
@@ -41,7 +41,7 @@ module Settings
         }
     }
 
-    f = File.new(File.dirname(__FILE__)+'/config.yml', 'w')
+    f = File.new(File.dirname(__FILE__)+'/config/config.yml', 'w')
     f.chown(-1,0)
     f.chmod(0600)
     f.write Psych.dump(settings)

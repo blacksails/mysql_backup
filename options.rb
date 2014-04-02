@@ -41,27 +41,27 @@ module Options
   def handle_r_flag
     printf 'Are you sure that you want to reset the config? [y/n]: '
     answer = get_y_or_n
-    if answer and File.exist? File.dirname(__FILE__)+'/config.yml'
-      FileUtils.rm File.dirname(__FILE__)+'/config.yml'
+    if answer and File.exist? File.dirname(__FILE__)+'/config/config.yml'
+      FileUtils.rm File.dirname(__FILE__)+'/config/config.yml'
     else
       puts 'OK. Aborting...'
       exit
     end
   end
 
-  def get_y_or_n(tries=0)
+  def get_y_or_n(tries=1)
     ans = gets.chomp.downcase
     if ans =~ /^y(|es)$/
       true
     elsif ans =~ /^n(|o)$/
       false
     else
-      if tries == 5
-        puts 'Too many failed attempts. Get a new job!'
+      if tries == 3
+        puts 'Too many failed attempts. Get an other job!'
         exit
       end
       printf "Please enter 'y' or 'n': "
-      get_y_or_n(tries+1)
+      get_y_or_n(tries+1) # recursion! Weeee
     end
   end
 

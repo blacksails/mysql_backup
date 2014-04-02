@@ -13,4 +13,7 @@ gem 'psych'
 # Used to manage directories and files
 gem 'fileutils'
 
+# Used to generate cronjobs
+gem 'whenever', :require => false
+
 ruby '2.1.1'

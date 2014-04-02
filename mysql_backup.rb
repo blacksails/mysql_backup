@@ -25,14 +25,8 @@ class MySQLBackup
   end
 
   def load_config
-    # deletes the config on the -r flag
-    if Options.reset_config
-      if File.exist? @root_path+'config.yml'
-        FileUtils.rm @root_path+'config.yml'
-      end
-    end
     # creates new config if none is found
-    if File.exist? @root_path+'config.yml'
+    if File.exist? @root_path+'/config/config.yml'
       Settings.load!
     else
       Settings.create!
