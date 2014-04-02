@@ -56,7 +56,6 @@ module Options
     elsif ans =~ /^n(|o)$/
       false
     else
-      tries += 1
       if tries == 5
         puts 'Too many failed attempts. Get a new job!'
         exit
