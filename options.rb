@@ -50,13 +50,18 @@ module Options
   end
 
   def get_y_or_n
+    tries = 0
     ans = gets.chomp.downcase
     if ans =~ /^y(|es)$/
       true
     elsif ans =~ /^n(|o)$/
       false
     else
-      puts
+      tries += 1
+      if tries == 5
+        puts 'Too many failed attempts. Get a new job!'
+        exit
+      end
       printf "Please enter 'y' or 'n': "
       get_y_or_n
     end
