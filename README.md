@@ -9,6 +9,7 @@ backup server.
 
         sudo -s
         ruby mysql_backup.rb
+
 4. Optionally see available commands with `ruby mysql_backup.rb -h`
 
 ## Cron Job
