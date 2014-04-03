@@ -48,20 +48,34 @@ class MySQLBackup
   end
 
   def dump_databases
+    puts 'Dumping databases...'
     if Dir.exist? @root_path+@dirname
       FileUtils.rm_r @root_path+@dirname
     end
     FileUtils.mkdir @root_path+@dirname
     @databases.each do |db|
-      system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | "+
+      success = system "mysqldump -u#{Settings.mysql[:user]} -p#{Settings.mysql[:pass]} #{db} | "+
                  "gzip > #{@root_path+@dirname}/#{db}.sql.gz"
+      unless success
+        puts "A problem was encountered when dumping the database #{db}"
+        exit
+      end
     end
+    puts 'Done!'
   end
 
   def move_dumps_to_backup_server
     unless Options.without_remote # checks if the -w flag has been set
-      system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
+      puts 'Moving files to backup server...'
+      success = system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
                   ":#{Settings.rsync[:path]}"
+      if success
+        FileUtils.rm @root_path+@dirname
+        puts 'Done!'
+      else
+        puts 'There was a problem moving the database dumps to the backup server. Dumps have been kept here!'
+        exit
+      end
     end
   end
 
