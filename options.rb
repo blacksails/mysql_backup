@@ -4,10 +4,11 @@ module Options
 
   extend self
 
+  @options = {
+      without_remote: false
+  }
+
   def handle_arguments!
-    @options = {
-        without_remote: false
-    }
     o = OptionParser.new do |opts|
       opts.banner = 'Usage: mysql_backup.rb [options]'
       opts.on_tail('-h', '--help', 'Show this message.') do
