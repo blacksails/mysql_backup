@@ -19,7 +19,7 @@ The timing of the cron job can be changed from within the file `config/schedule.
 ## TODO
 This section is for ideas to improve the script
 
-- Make the script an executable with `#!`
+- ~~Make the script an executable with `#!`~~
 - Use convention of naming rsync backup dir the hostname of the machine from which the backup comes from
 - Make a flag for transfering untrasfered files, or make retries automatic
 - Make a logfile for failures
