@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative 'settings'
 require_relative 'options'
 require 'mysql2'
