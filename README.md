@@ -13,6 +13,7 @@ ruby mysql_backup.rb
 
 ## TODO
 This section is for ideas to improve the script
+
 - Make the script an executable with `#!`
 - Use convention of naming rsync backup dir the hostname of the machine from which the backup comes from
 - Make a flag for transfering untrasfered files, or make retries automatic
