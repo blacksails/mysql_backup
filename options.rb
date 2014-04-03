@@ -4,7 +4,9 @@ module Options
 
   extend self
 
-  @options = {}
+  @options = {
+      without_remote: false
+  }
 
   def handle_arguments!
     o = OptionParser.new do |opts|
