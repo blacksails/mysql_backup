@@ -4,6 +4,7 @@ module Options
 
   extend self
 
+  # Default options
   @options = {
       without_remote: false
   }
@@ -35,8 +36,11 @@ module Options
   end
 
   def method_missing(name, *args, &block)
-    @options[name.to_sym] ||
-        fail(NoMethodError, "unknown option root #{name}", caller)
+    if @options.has_key? name.to_sym
+      @options[name.to_sym]
+    else
+      fail(NoMethodError, "unknown option root #{name}", caller)
+    end
   end
 
   private
