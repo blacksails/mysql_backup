@@ -29,6 +29,11 @@ module Settings
     rsync_user = gets.chomp
     printf 'Enter rsync path: '
     rsync_path = gets.chomp
+    printf "Do you want to set a cron job if there isen't one already? [y/n]: "
+    cron_job = get_y_or_n
+    if cron_job
+      system 'whenever -i mysqlbackup'
+    end
     settings = {
         mysql: {
             user: mysql_user,
@@ -47,6 +52,18 @@ module Settings
     f.write Psych.dump(settings)
     f.close
     load!
+  end
+
+  def get_y_or_n
+    ans = gets.chomp.downcase
+    if ans =~ /^y(|es)$/
+      true
+    elsif ans =~ /^n(|o)$/
+      false
+    else
+      printf "Please enter 'y' or 'n': "
+      get_y_or_n
+    end
   end
 
 end

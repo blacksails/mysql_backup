@@ -59,7 +59,7 @@ class MySQLBackup
   end
 
   def move_dumps_to_backup_server
-    if Options.use_remote # checks if the -w flag has been set
+    unless Options.without_remote # checks if the -w flag has been set
       system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
                   ":#{Settings.rsync[:path]}"
     end
