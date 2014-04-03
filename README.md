@@ -6,10 +6,10 @@ backup server.
 1. Clone the repo to the machine running MySQL.
 2. Intall depdencies with `bundle install`
 3. Run the script as root
- ~~~~
+ <pre><code>
  sudo -s
  ruby mysql_backup.rb
- ~~~~
+</pre></code>
 4. Optionally see available commands with `ruby mysql_backup.rb -h`
 
 ## Cron Job
