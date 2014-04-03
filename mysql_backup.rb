@@ -70,7 +70,7 @@ class MySQLBackup
       success = system  "rsync -a #{@root_path+@dirname} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
                   ":#{Settings.rsync[:path]}"
       if success
-        FileUtils.rm @root_path+@dirname
+        FileUtils.rm_r @root_path+@dirname
         puts 'Done!'
       else
         puts 'There was a problem moving the database dumps to the backup server. Dumps have been kept here!'
