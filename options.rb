@@ -1,7 +1,10 @@
 require 'optparse'
 
 module Options
+
   extend self
+
+  @options = {}
 
   def handle_arguments!
     o = OptionParser.new do |opts|
