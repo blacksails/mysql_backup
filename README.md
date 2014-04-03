@@ -5,7 +5,9 @@ script. It uses mysqldump to make the backup files, and rsync to transfer them t
 ## Installation
 1. Clone the repo to the machine running MySQL.
 2. Intall depdencies with `bundle install`
-2. Run the script as root `ruby mysql_backup.rb`
+2. Run the script as root
+    sudo -s
+    ruby mysql_backup.rb
 
 ## TODO
 This section is for ideas to improve the script
