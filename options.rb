@@ -39,8 +39,10 @@ module Options
   def handle_r_flag
     printf 'Are you sure that you want to reset the config? [y/n]: '
     answer = get_y_or_n
-    if answer and File.exist? File.dirname(__FILE__)+'/config/config.yml'
-      FileUtils.rm File.dirname(__FILE__)+'/config/config.yml'
+    if answer
+      if File.exist? File.dirname(__FILE__)+'/config/config.yml'
+        FileUtils.rm File.dirname(__FILE__)+'/config/config.yml'
+      end
       puts 'Config has been reset!'
       exit
     else
