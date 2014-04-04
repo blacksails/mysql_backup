@@ -21,7 +21,7 @@ class MySQLBackup
   def check_if_root
     if ENV['USER'] != 'root'
       puts 'You need root privileges to run this script'
-      exit
+      exit 1
     end
   end
 
@@ -59,7 +59,7 @@ class MySQLBackup
                  "gzip > #{@root_path+@dirname}/#{db}.sql.gz"
       unless success
         puts "A problem was encountered when dumping the database #{db}"
-        exit
+        exit 1
       end
     end
     puts 'Done!'
@@ -75,7 +75,7 @@ class MySQLBackup
         puts 'Done!'
       else
         puts 'There was a problem moving the database dumps to the backup server. Dumps have been kept here!'
-        exit
+        exit 1
       end
     end
   end

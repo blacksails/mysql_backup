@@ -31,7 +31,7 @@ module Options
     rescue OptionParser::InvalidOption => e
       puts e
       puts o
-      exit
+      exit 1
     end
   end
 
@@ -56,7 +56,7 @@ module Options
       exit
     else
       puts 'OK. Aborting...'
-      exit
+      exit 1
     end
   end
 
