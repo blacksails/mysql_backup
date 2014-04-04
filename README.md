@@ -24,3 +24,4 @@ This section is for ideas to improve the script
 - Make a flag for transfering untrasfered files, or make retries automatic
 - Make a logfile for failures
 - Change the way check_if_root works, so that the script can be run with sudo or simply su.
+- Make flags for backuperrors that can be used by SNMP
