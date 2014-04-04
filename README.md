@@ -8,13 +8,13 @@ backup server.
 3. Run the script as root
 
         sudo -s
-        ruby mysql_backup.rb
+        ./mysql_backup.rb
 
-4. Optionally see available commands with `ruby mysql_backup.rb -h`
+4. Optionally see available commands with `./mysql_backup.rb -h`
 
 ## Cron Job
 The timing of the cron job can be changed from within the file `config/schedule.rb`. After modification be sure to run
-`ruby mysql_backup.rb -c` which updates the information in the crontab.
+`./mysql_backup.rb -c` which updates the information in the crontab.
 
 ## TODO
 This section is for ideas to improve the script
