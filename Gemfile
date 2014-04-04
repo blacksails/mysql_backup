@@ -16,4 +16,7 @@ gem 'fileutils'
 # Used to generate cronjobs
 gem 'whenever', :require => false
 
+# Used to easily get a time difference
+gem 'time_diff'
+
 ruby '2.1.1'

@@ -1,4 +1,6 @@
 require 'optparse'
+require 'time_diff'
+require_relative 'settings'
 
 module Options
 
@@ -26,6 +28,10 @@ module Options
         handle_c_flag
       }
       opts.on('-d', '--remove-cron-job', 'Removes the mysqlbackup cron job.') { handle_d_flag }
+      opts.on('-b', '--time-since-last-backup',
+              'Reports the time since the last backup. Exits with exit code 1 if the time is greater than 24h') {
+        handle_b_flag
+      }
     end
     begin o.parse!
     rescue OptionParser::InvalidOption => e
@@ -71,6 +77,15 @@ module Options
     puts 'Removing cron job(s).'
     system 'whenever -c mysqlbackup'
     puts 'Done'
+    exit
+  end
+
+  def handle_b_flag
+    timediff = Time.diff Time.now, Settings.backup[:last_backup], '%h:%m:%s'
+    puts timediff[:diff]
+    if timediff[:day] >= 1 and timediff[:hour] >= 1
+      exit 1
+    end
     exit
   end
 

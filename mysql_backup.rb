@@ -10,7 +10,7 @@ class MySQLBackup
     check_if_root
     @root_path = File.dirname(__FILE__)+'/'
     @databases = []
-    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
+    @dirname = Time.now.strftime("localbackup/mysql-%Y%m%d-%H%M")
     Options.handle_arguments!
     load_config
     get_database_names
@@ -62,6 +62,7 @@ class MySQLBackup
         exit 1
       end
     end
+    Settings.set_backup_time!
     puts 'Done!'
   end
 

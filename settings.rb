@@ -37,12 +37,15 @@ module Settings
     settings = {
         mysql: {
             user: mysql_user,
-            pass: mysql_password,
+            pass: mysql_password
         },
         rsync: {
             host: rsync_host,
             user: rsync_user,
             path: rsync_path
+        },
+        backup: {
+            last_backup: Time.now
         }
     }
 
@@ -52,6 +55,19 @@ module Settings
     f.write Psych.dump(settings)
     f.close
     load!
+  end
+
+  def set_backup_time!
+    load!
+    @settings[:backup][:last_backup] = Time.now
+    if File.exist? File.dirname(__FILE__)+'/config/config.yml'
+      FileUtils.rm File.dirname(__FILE__)+'/config/config.yml'
+    end
+    f = File.new(File.dirname(__FILE__)+'/config/config.yml', 'w')
+    f.chown(-1,0)
+    f.chmod(0600)
+    f.write Psych.dump(@settings)
+    f.close
   end
 
   def get_y_or_n
