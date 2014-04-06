@@ -81,6 +81,7 @@ module Options
   end
 
   def handle_b_flag
+    Settings.load!
     timediff = Time.diff Time.now, Settings.backup[:last_backup], '%h:%m:%s'
     puts timediff[:diff]
     if timediff[:day] >= 1 and timediff[:hour] >= 1
