@@ -11,6 +11,8 @@ module Options
       without_remote: false
   }
 
+  I18n.config.enforce_available_locales = false
+
   def handle_arguments!
     o = OptionParser.new do |opts|
       opts.banner = 'Usage: mysql_backup.rb [options]'
