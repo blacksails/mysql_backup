@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, at: '04:00' do
-  command File.expand_path('../mysql_backup.rb', __FILE__)
+  command Dir.pwd + '/mysql_backup.rb'
 end

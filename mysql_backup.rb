@@ -9,6 +9,7 @@ class MySQLBackup
   def initialize
     check_if_root
     @root_path = File.dirname(__FILE__)+'/'
+    Dir.chdir @root_path
     @databases = []
     @dirname = Time.now.strftime("localbackup/mysql-%Y%m%d-%H%M")
     Options.handle_arguments!

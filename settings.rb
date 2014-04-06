@@ -13,8 +13,12 @@ module Settings
   end
 
   def method_missing(name, *args, &block)
-    @settings[name.to_sym] ||
-        fail(NoMethodError, "unknown configuration root #{name}", caller)
+    if @settings.has_key? name.to_sym
+      @settings[name.to_sym]
+    else
+      @settings[name.to_sym] ||
+          fail(NoMethodError, "unknown configuration root #{name}", caller)
+    end
   end
 
   def create!
