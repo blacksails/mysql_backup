@@ -87,8 +87,8 @@ module Options
     now = Time.now
     timediff = Time.diff now, Settings.backup[:last_backup], '%h:%m:%s'
     puts timediff[:diff]
-    timediff = Time.diff now, Settings.backup[:last_backup], '%d%h'
-    if timediff[:diff].to_i >= 101
+    timediff = Time.diff now, Settings.backup[:last_backup], '%h'
+    if timediff[:diff].to_i > 24
       exit 1
     end
     exit
