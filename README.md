@@ -19,10 +19,10 @@ The timing of the cron job can be changed from within the file `config/schedule.
 ## TODO
 This section is for ideas to improve the script
 
-- ~~Make the script an executable with `#!`~~ *DONE!*
+- ~~Make the script an executable with `#!`~~ **Done!**
 - Use convention of naming rsync backup dir the hostname of the machine from which the backup comes from
 - ~~Make a flag for transfering untrasfered files~~, or make retries automatic
 - Make a logfile for failures
 - Change the way check_if_root works, so that the script can be run with sudo or simply su.
-- Make flags for backuperrors that can be used by SNMP
+- ~~Make flags for backuperrors that can be used by SNMP~~ **Done!**
 - Make the script work on Mac OS
