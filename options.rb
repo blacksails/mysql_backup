@@ -109,7 +109,7 @@ module Options
   end
 
   def handle_cap_t_flag
-    puts 'Transfering untransered backups...'
+    puts 'Transfering untransfered backups...'
     Settings.load!
     path = File.dirname(__FILE__)+'/localbackup'
     dirs = Dir.entries(path).select do |entry|
