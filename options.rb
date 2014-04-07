@@ -34,7 +34,7 @@ module Options
       opts.on('-t', '--untransfered-backups',
               'Reports the number of untransfered backups (Backups which have not been moved to a remote server). '+
                   'Exits with exit code 1 if the number is greater than 0.') { handle_t_flag }
-      opts.on('-T', '--transfer-untransfered-backups',
+      opts.on('-T', '--transfer-backups',
               'Transfer untransfered backups to backup server.') { handle_cap_t_flag }
     end
     begin o.parse!
