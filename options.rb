@@ -109,13 +109,26 @@ module Options
   end
 
   def handle_cap_t_flag
+    puts 'Transfering untransered backups...'
+    Settings.load!
     path = File.dirname(__FILE__)+'/localbackup'
     dirs = Dir.entries(path).select do |entry|
       File.directory? File.join(path, entry) and !(entry =='.' || entry == '..')
     end
     dirs.each do |dir|
-      puts path+'/'+dir
+      fullpath = path + '/' + dir
+      success = system  "rsync -a #{fullpath} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
+                            ":#{Settings.rsync[:path]}"
+      if success
+        FileUtils.rm_r @root_path+@dirname
+      else
+        puts "There was a problem moving the following databasedump to the backup server. #{fullpath}"
+        puts 'Aborting...'
+        exit 1
+      end
     end
+    puts 'Done!'
+    exit
   end
 
   # Private helper methods
