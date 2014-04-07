@@ -34,6 +34,8 @@ module Options
       opts.on('-t', '--untransfered-backups',
               'Reports the number of untransfered backups (Backups which have not been moved to a remote server). '+
                   'Exits with exit code 1 if the number is greater than 0.') { handle_t_flag }
+      opts.on('-T', '--transfer-untransfered-backups',
+              'Transfer untransfered backups to backup server.') { handle_cap_t_flag }
     end
     begin o.parse!
     rescue OptionParser::InvalidOption => e
@@ -86,7 +88,7 @@ module Options
     Settings.load!
     now = Time.now
     timediff = Time.diff now, Settings.backup[:last_backup], '%h:%m:%s'
-    puts timediff[:diff]
+    puts "Time since last backup: #{timediff[:diff]}"
     timediff = Time.diff now, Settings.backup[:last_backup], '%h'
     if timediff[:diff].to_i > 24
       exit 1
@@ -97,13 +99,21 @@ module Options
   def handle_t_flag
     path = File.dirname(__FILE__)+'/localbackup'
     number_of_dirs = Dir.entries(path).count do |entry|
-      File.directory? File.join(path,entry) and !(entry =='.' || entry == '..')
+      File.directory? File.join(path, entry) and !(entry =='.' || entry == '..')
     end
     puts "Number of untransfered files: #{number_of_dirs}"
     if number_of_dirs > 0
       exit 1
     end
     exit
+  end
+
+  def handle_cap_t_flag
+    path = File.dirname(__FILE__)+'/localbackup'
+    dirs = Dir.entries(path).select do |entry|
+      File.directory? File.join(path, entry) and !(entry =='.' || entry == '..')
+    end
+    puts dirs
   end
 
   # Private helper methods
