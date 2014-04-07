@@ -120,7 +120,8 @@ module Options
       success = system  "rsync -a #{fullpath} #{Settings.rsync[:user]}@#{Settings.rsync[:host]}"+
                             ":#{Settings.rsync[:path]}"
       if success
-        FileUtils.rm_r @root_path+@dirname
+        puts 'Succesfully transfered '+fullpath
+        FileUtils.rm_r fullpath
       else
         puts "There was a problem moving the following databasedump to the backup server. #{fullpath}"
         puts 'Aborting...'
