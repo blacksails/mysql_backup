@@ -26,14 +26,14 @@ module Options
       end
       opts.on('-c', '--update-cron',
               'Updates the cron job according to the file config/schedule.rb.'+
-                  ' Feel free to change timing in config/schedule.rb, and then run this command.') {
-        handle_c_flag
-      }
+                  ' Feel free to change timing in config/schedule.rb, and then run this command.') { handle_c_flag }
       opts.on('-d', '--remove-cron-job', 'Removes the mysqlbackup cron job.') { handle_d_flag }
       opts.on('-b', '--time-since-last-backup',
-              'Reports the time since the last backup. Exits with exit code 1 if the time is greater than 24h') {
-        handle_b_flag
-      }
+              'Reports the time since the last backup. '+
+                  'Exits with exit code 1 if the time is greater than 24h') { handle_b_flag }
+      opts.on('-t', '--untransfered-backups',
+              'Reports the number of untransfered backups (Backups which have not been moved to a remote server). '+
+                  'Exits with exit code 1 if the number is greater than 0.') { handle_t_flag }
     end
     begin o.parse!
     rescue OptionParser::InvalidOption => e
@@ -89,6 +89,18 @@ module Options
     puts timediff[:diff]
     timediff = Time.diff now, Settings.backup[:last_backup], '%h'
     if timediff[:diff].to_i > 24
+      exit 1
+    end
+    exit
+  end
+
+  def handle_t_flag
+    path = File.dirname(__FILE__)+'/localbackup'
+    number_of_dirs = Dir.entries(path).count do |entry|
+      File.directory? File.join(path,entry) and !(entry =='.' || entry == '..')
+    end
+    puts "Number of untransfered files: #{number_of_dirs}"
+    if number_of_dirs > 0
       exit 1
     end
     exit
