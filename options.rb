@@ -113,7 +113,9 @@ module Options
     dirs = Dir.entries(path).select do |entry|
       File.directory? File.join(path, entry) and !(entry =='.' || entry == '..')
     end
-    puts dirs
+    dirs.each do |dir|
+      puts path+'/'+dir
+    end
   end
 
   # Private helper methods
