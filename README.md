@@ -2,6 +2,11 @@
 This is an easy configurable backup script. It uses mysqldump to make the backup files, and rsync to transfer them to a
 backup server.
 
+## Dependencies
+1. The script has been written based on Ruby v2.1.1, but it should work on anything greater or equal than 2.0.0.
+2. The mysql2 gem relies on the MySQL library.
+3. The fileutils gem relies on the imagemagick library
+
 ## Installation
 1. Clone the repo to the machine running MySQL.
 2. Intall depdencies with `bundle install`
