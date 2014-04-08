@@ -11,7 +11,7 @@ class MySQLBackup
     @root_path = File.dirname(__FILE__)+'/'
     Dir.chdir @root_path
     @databases = []
-    @dirname = Time.now.strftime("localbackup/mysql-%Y%m%d-%H%M")
+    @dirname = Time.now.strftime("mysql-%Y%m%d-%H%M")
     Options.handle_arguments!
     load_config
     get_database_names
@@ -60,6 +60,7 @@ class MySQLBackup
                  "gzip > #{@root_path+@dirname}/#{db}.sql.gz"
       unless success
         puts "A problem was encountered when dumping the database #{db}"
+        FileUtils.rm_r @root_path+@dirname
         exit 1
       end
     end
@@ -76,6 +77,7 @@ class MySQLBackup
         FileUtils.rm_r @root_path+@dirname
         puts 'Done!'
       else
+        FileUtils.mv @root_path+@dirname, @root_path+'/localbackup/'
         puts 'There was a problem moving the database dumps to the backup server. Dumps have been kept here!'
         exit 1
       end
