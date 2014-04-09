@@ -47,6 +47,7 @@ class MySQLBackup
     ).each do |row|
       @databases << row[:SCHEMA_NAME]
     end
+    client.close
   end
 
   def dump_databases
