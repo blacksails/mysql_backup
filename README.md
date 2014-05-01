@@ -17,10 +17,9 @@ backup server.
 2. Intall depdencies with `bundle install`
 3. Run the script as root
 
-        sudo -s
-        ./mysql_backup.rb
+        sudo mysql_backup.rb
 
-4. Optionally see available commands with `./mysql_backup.rb -h`
+4. Optionally see available commands with `sudo mysql_backup.rb -h`
 
 ## Cron Job
 The timing of the cron job can be changed from within the file `config/schedule.rb`. After modification be sure to run
@@ -33,6 +32,6 @@ This section is for ideas to improve the script
 - Use convention of naming rsync backup dir the hostname of the machine from which the backup comes from
 - ~~Make a flag for transfering untrasfered files~~, or make retries automatic
 - Make a logfile for failures
-- Change the way check_if_root works, so that the script can be run with sudo or simply su.
+- ~~Change the way check_if_root works, so that the script can be run with sudo or simply su.~~
 - ~~Make flags for backuperrors that can be used by SNMP~~ **Done!**
 - Make the script work on Mac OS
