@@ -36,3 +36,5 @@ This section is for ideas to improve the script
 - ~~Make flags for backuperrors that can be used by SNMP~~ **Done!**
 - Make the script work on Mac OS
 - Make the script work with relative path
+- Let the script retry after twelve hours if failure
+- Let the script save former failed backups on a new try
