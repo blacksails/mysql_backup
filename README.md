@@ -35,3 +35,4 @@ This section is for ideas to improve the script
 - ~~Change the way check_if_root works, so that the script can be run with sudo or simply su.~~
 - ~~Make flags for backuperrors that can be used by SNMP~~ **Done!**
 - Make the script work on Mac OS
+- Make the script work with relative path
